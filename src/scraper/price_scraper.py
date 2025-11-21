@@ -153,14 +153,25 @@ class PriceScraper:
         return None
     
     def _fetch_mstr_from_finnhub(self) -> Optional[Dict]:
-        """Fetch MSTR data from Finnhub API (free tier)."""
+        """Fetch MSTR data from Finnhub API (free tier - API key required)."""
         try:
-            # Using Finnhub's free API (no key required for basic quote)
+            # Check if API key is available (required for Finnhub)
+            api_key = settings.finnhub_api_key
+            if not api_key:
+                return None  # Skip if no API key
+            
             url = "https://finnhub.io/api/v1/quote"
-            params = {"symbol": "MSTR"}
+            params = {
+                "symbol": "MSTR",
+                "token": api_key
+            }
             response = self.client.get(url, params=params, timeout=10)
             response.raise_for_status()
             data = response.json()
+            
+            # Check for error responses
+            if data.get("s") == "no_data" or data.get("c") == 0:
+                return None
             
             price = data.get("c")  # Current price
             if price and price > 0:
@@ -169,14 +180,8 @@ class PriceScraper:
                     "market_cap": None,
                     "shares_outstanding": None
                 }
-        except Exception:
-            pass
-        
-        # Last resort: Try a simple web scraping approach or return None
-        # Note: Yahoo Finance rate limiting is aggressive. Consider:
-        # 1. Adding delays between requests
-        # 2. Using an API key for Alpha Vantage or Finnhub
-        # 3. Caching results to reduce API calls
+        except Exception as e:
+            print(f"Finnhub API error: {str(e)[:100]}")
         return None
     
     def _fetch_mstr_from_alpha_vantage(self) -> Optional[Dict]:
