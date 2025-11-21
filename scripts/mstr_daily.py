@@ -24,22 +24,12 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from src.database.models import init_database
-from src.database.session import get_db_session
 from src.database.operations import DatabaseOperations
 
 
 def main():
     """Main function to run daily data collection."""
     print(f"[{datetime.now().isoformat()}] Starting MSTR Bitcoin Tracker daily run...")
-    
-    # Get database path from environment or use default
-    db_path = os.getenv('DATABASE_PATH', './data/mstr_tracker.db')
-    print(f"Database path: {db_path}")
-    
-    # Ensure data directory exists
-    db_dir = Path(db_path).parent
-    db_dir.mkdir(parents=True, exist_ok=True)
-    print(f"Data directory created/verified: {db_dir}")
     
     try:
         # Initialize database
