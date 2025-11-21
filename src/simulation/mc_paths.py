@@ -5,6 +5,12 @@ from typing import Tuple, Optional
 import numpy as np
 from scipy import stats
 
+# Constants
+MIN_DATA_POINTS = 10  # Minimum data points for beta estimation
+DEFAULT_BETA = 1.5  # Default beta if insufficient data
+DEFAULT_ALPHA = 0.0  # Default alpha
+DEFAULT_RESIDUAL_SIGMA = 0.30  # Default residual volatility
+
 
 @dataclass
 class SimulationPaths:
@@ -169,9 +175,9 @@ def estimate_beta_parameters(
     btc_returns = btc_returns[mask]
     mstr_returns = mstr_returns[mask]
     
-    if len(btc_returns) < 10:
+    if len(btc_returns) < MIN_DATA_POINTS:
         # Not enough data, return defaults
-        return 0.0, 1.5, 0.30
+        return DEFAULT_ALPHA, DEFAULT_BETA, DEFAULT_RESIDUAL_SIGMA
     
     # Linear regression: mstr = alpha + beta * btc + epsilon
     slope, intercept, r_value, p_value, std_err = stats.linregress(btc_returns, mstr_returns)

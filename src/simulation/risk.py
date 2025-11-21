@@ -1,7 +1,7 @@
 """Risk metrics: VaR, CVaR, and simulation risk analysis."""
 
 from dataclasses import dataclass
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple
 import numpy as np
 
 
@@ -22,7 +22,7 @@ def compute_var_cvar(
     final_prices: np.ndarray,
     initial_price: float,
     alpha: float = 0.95
-) -> tuple[float, float]:
+) -> Tuple[float, float]:
     """
     Compute Value at Risk (VaR) and Conditional VaR (CVaR).
     

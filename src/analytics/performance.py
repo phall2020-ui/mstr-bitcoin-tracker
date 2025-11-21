@@ -10,6 +10,9 @@ from sqlalchemy import and_
 
 from ..database.models import MarketPrice
 
+# Constants
+MIN_DRAWDOWN_THRESHOLD = 0.05  # Only report drawdowns > 5%
+
 
 @dataclass
 class ReturnsMetrics:
@@ -267,7 +270,7 @@ def compute_drawdowns(
     for i in range(1, len(drawdown_values) - 1):
         if drawdown_values[i] < drawdown_values[i-1] and drawdown_values[i] < drawdown_values[i+1]:
             # Local minimum found
-            if drawdown_values[i] < -0.05:  # Only significant drawdowns > 5%
+            if drawdown_values[i] < -MIN_DRAWDOWN_THRESHOLD:  # Only significant drawdowns
                 # Find the peak before
                 peak_idx = i - 1
                 while peak_idx > 0 and price_series.iloc[peak_idx] < price_series.iloc[peak_idx - 1]:

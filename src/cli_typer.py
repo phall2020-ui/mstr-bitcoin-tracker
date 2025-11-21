@@ -509,7 +509,12 @@ def set_position(
     with get_db_session() as session:
         # Deactivate other positions if requested
         if deactivate_others:
-            session.query(UserPosition).update({"is_active": False})
+            # Only deactivate existing active positions
+            active_positions = session.query(UserPosition).filter(
+                UserPosition.is_active == True
+            ).all()
+            for pos in active_positions:
+                pos.is_active = False
         
         # Create new position
         position = UserPosition(

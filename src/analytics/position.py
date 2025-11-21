@@ -35,7 +35,7 @@ def get_active_position(session: Session) -> Optional[UserPosition]:
         Active UserPosition or None
     """
     return session.query(UserPosition).filter(
-        UserPosition.is_active == True
+        UserPosition.is_active.is_(True)
     ).first()
 
 
