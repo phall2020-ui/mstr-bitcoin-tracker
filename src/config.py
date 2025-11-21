@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     # API Keys (optional, for enhanced data sources)
     coingecko_api_key: str = ""
     alpha_vantage_api_key: str = ""
+    finnhub_api_key: str = ""
     
     # Data sources
     coingecko_api_url: str = "https://api.coingecko.com/api/v3"

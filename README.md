@@ -117,6 +117,22 @@ print(f"Mean price after 30 days: ${sim_results['mean_price']:,.2f}")
 - **Bitcoin Price**: CoinGecko API (free tier available)
 - **MSTR Stock Price**: Yahoo Finance API (via yfinance)
 
+### Rate Limiting Note
+
+Yahoo Finance has aggressive rate limiting. If you encounter issues fetching MSTR price:
+
+1. **Wait between requests**: Add delays (5-10 seconds) between API calls
+2. **Use API keys**: Set up free API keys for better reliability:
+   - **Alpha Vantage**: Get free API key at https://www.alphavantage.co/support/#api-key
+   - **Finnhub**: Get free API key at https://finnhub.io/register
+3. **Set environment variables**:
+   ```bash
+   export ALPHA_VANTAGE_API_KEY=your_key_here
+   # Or
+   export FINNHUB_API_KEY=your_key_here
+   ```
+4. **Cache results**: The tool stores data in the database, so you don't need to fetch frequently
+
 ### Optional API Keys
 
 For enhanced data access, you can set these environment variables:
