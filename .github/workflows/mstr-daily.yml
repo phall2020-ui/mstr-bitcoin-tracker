@@ -31,8 +31,9 @@ jobs:
       - name: Run MSTR daily tracker script
         env:
           DATABASE_PATH: ./data/mstr_tracker.db
-          BTC_API_KEY: ${{ secrets.BTC_API_KEY }}
-          MSTR_API_KEY: ${{ secrets.MSTR_API_KEY }}
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: |
           python scripts/mstr_daily.py
       

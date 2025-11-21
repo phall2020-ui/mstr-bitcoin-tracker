@@ -10,8 +10,9 @@ This script runs daily to:
 
 Environment Variables:
 - DATABASE_PATH: Path to SQLite database (default: ./data/mstr_tracker.db)
-- BTC_API_KEY: Optional API key for Bitcoin price data
-- MSTR_API_KEY: Optional API key for MSTR stock data
+- COINGECKO_API_KEY: Optional API key for CoinGecko (Bitcoin price data)
+- ALPHA_VANTAGE_API_KEY: Optional API key for Alpha Vantage (MSTR stock data)
+- FINNHUB_API_KEY: Optional API key for Finnhub (MSTR stock data)
 """
 
 import os
