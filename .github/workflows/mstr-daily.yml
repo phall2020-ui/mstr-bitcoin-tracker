@@ -1,0 +1,45 @@
+name: MSTR Daily Bitcoin Tracker
+
+on:
+  schedule:
+    # Run at 06:00 UTC every day
+    - cron: '0 6 * * *'
+  workflow_dispatch:  # Allow manual triggering for testing
+
+jobs:
+  run-daily-tracker:
+    runs-on: ubuntu-latest
+    
+    # Only run on main branch
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run MSTR daily tracker script
+        env:
+          DATABASE_PATH: ./data/mstr_tracker.db
+          BTC_API_KEY: ${{ secrets.BTC_API_KEY }}
+          MSTR_API_KEY: ${{ secrets.MSTR_API_KEY }}
+        run: |
+          python scripts/mstr_daily.py
+      
+      - name: Upload database artifact (optional)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mstr-tracker-db-${{ github.run_number }}
+          path: data/mstr_tracker.db
+          retention-days: 7
