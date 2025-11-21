@@ -26,6 +26,8 @@ sys.path.insert(0, str(project_root))
 
 from src.database.models import init_database
 from src.database.operations import DatabaseOperations
+from src.scraper.price_scraper import PriceScraper
+from src.scraper.holdings_scraper import HoldingsScraper
 
 
 def main():
@@ -38,16 +40,12 @@ def main():
         init_database()
         print("✓ Database initialized successfully")
         
-        # Use DatabaseOperations for legacy database operations
+        # Get database operations instance
         db_ops = DatabaseOperations()
         
         try:
             # Fetch and store current prices
             print("Fetching current BTC and MSTR prices...")
-            
-            # Import scrapers
-            from src.scraper.price_scraper import PriceScraper
-            from src.scraper.holdings_scraper import HoldingsScraper
             
             price_scraper = PriceScraper()
             holdings_scraper = HoldingsScraper()
